@@ -23,3 +23,13 @@ export const PREDEFINED_LEVELS: { name: string; value: Level }[] = [
     value: Level.WORLD_CLASS,
   },
 ];
+
+export enum BoardCellTypes {
+  BOMB = "bomb",
+  EMPTY = "empty",
+  NUMBER = "number",
+}
+
+export type Board = Array<
+  Array<{ type: BoardCellTypes; value: number | null }>
+>;
