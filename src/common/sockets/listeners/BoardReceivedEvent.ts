@@ -1,9 +1,9 @@
-import { Board, BoardCellTypes } from "../../../board/BoardTypes";
+import { Board, BoardFieldTypes } from "../../../board/BoardTypes";
 import { SocketEvent } from "./SocketEvent";
 
-export const BoardMap: Record<string, BoardCellTypes> = {
-  "*": BoardCellTypes.BOMB,
-  "□": BoardCellTypes.EMPTY,
+export const BoardMap: Record<string, BoardFieldTypes> = {
+  "*": BoardFieldTypes.BOMB,
+  "□": BoardFieldTypes.EMPTY,
 };
 
 export class BoardReceivedEvent extends SocketEvent {
@@ -25,10 +25,10 @@ export class BoardReceivedEvent extends SocketEvent {
     let board: Board = rows.map((row) => {
       let cols = [];
       for (let char of row) {
-        const type = char in BoardMap ? BoardMap[char] : BoardCellTypes.NUMBER;
+        const type = char in BoardMap ? BoardMap[char] : BoardFieldTypes.NUMBER;
         cols.push({
           type,
-          value: type === BoardCellTypes.NUMBER ? Number(char) : null,
+          value: type === BoardFieldTypes.NUMBER ? Number(char) : null,
         });
       }
 

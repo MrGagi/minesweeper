@@ -25,11 +25,11 @@ const LevelPicker = ({ value, options, onChange }: LevelPickerProps) => {
 
   return (
     <FormControl fullWidth>
-      <InputLabel id="demo-simple-select-label">Age</InputLabel>
+      <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
       <Select<number>
         id="demo-simple-select"
         value={value}
-        label="Age"
+        label="Difficulty"
         onChange={handleChange}
       >
         {options.map((option) => (

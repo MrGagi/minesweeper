@@ -24,12 +24,18 @@ export const PREDEFINED_LEVELS: { name: string; value: Level }[] = [
   },
 ];
 
-export enum BoardCellTypes {
+export enum BoardFieldTypes {
   BOMB = "bomb",
   EMPTY = "empty",
   NUMBER = "number",
 }
 
-export type Board = Array<
-  Array<{ type: BoardCellTypes; value: number | null }>
->;
+export type BoardField = { type: BoardFieldTypes; value: number | null };
+
+export type Board = Array<Array<BoardField>>;
+
+export enum GameStatus {
+  PLAYING = "PLAYING",
+  LOST = "LOST",
+  WON = "WON",
+}
