@@ -21,7 +21,10 @@ const Row = ({ columns, rowIndex }: RowProps) => {
   );
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "row", width: "fit-content" }}>
+    <Box
+      sx={{ display: "flex", flexDirection: "row", width: "fit-content" }}
+      data-testid="field-row"
+    >
       {columns.map((field, index) => (
         <Field {...field} key={index} index={index} onClick={handleOpenField} />
       ))}

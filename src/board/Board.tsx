@@ -18,12 +18,20 @@ const Board = () => {
       }}
     >
       {gameStatus === GameStatus.WON && (
-        <Typography fontWeight="bold" color="success">
+        <Typography
+          fontWeight="bold"
+          color="success"
+          data-testid="won-game-text"
+        >
           You won!
         </Typography>
       )}
       {gameStatus === GameStatus.LOST && (
-        <Typography fontWeight="bold" color="error">
+        <Typography
+          fontWeight="bold"
+          color="error"
+          data-testid="lost-game-text"
+        >
           Whoops, looks like you've hit the bomb!
         </Typography>
       )}
