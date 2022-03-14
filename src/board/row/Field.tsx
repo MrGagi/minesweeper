@@ -60,7 +60,12 @@ const Field = ({ type, value, index, onClick }: FieldProps) => {
     case BoardFieldTypes.BOMB:
       return (
         <ColumnField isOpen={true} data-testid="field">
-          <img src="./images/bomb.png" width="30px" height="30px" />
+          <img
+            src="./images/bomb.png"
+            width="30px"
+            height="30px"
+            alt="Bomb in the field"
+          />
         </ColumnField>
       );
     case BoardFieldTypes.EMPTY:

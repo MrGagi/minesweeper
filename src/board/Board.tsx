@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { useAppSelector } from "../common/store";
 import { GameStatus } from "./BoardTypes";
 import Row from "./row/Row";
