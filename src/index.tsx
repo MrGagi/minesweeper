@@ -5,13 +5,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./common/store";
 import { Provider } from "react-redux";
-import { createTheme, ThemeProvider } from "@mui/material";
-
-const theme = createTheme({
-  palette: {
-    mode: "light",
-  },
-});
+import { ThemeProvider } from "@mui/material";
+import { theme } from "./custom-theme";
 
 ReactDOM.render(
   <React.StrictMode>

@@ -12,8 +12,9 @@ const Board = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        width: "max-content",
         marginTop: 2,
+        overflow: board.length ? "scroll" : "initial",
+        width: "100%",
       }}
     >
       {gameStatus === GameStatus.WON && (

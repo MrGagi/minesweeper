@@ -1,31 +1,44 @@
 import React, { memo, useCallback } from "react";
-import { Box, useTheme } from "@mui/material";
+import { Box, SxProps, Theme } from "@mui/material";
 import { BoardFieldTypes } from "../BoardTypes";
+import { useTheme } from "@mui/material/styles";
 
-const ColumnField: React.FC<{ isOpen: boolean; onClick?: () => void }> = ({
+interface ColumnFieldProps {
+  isOpen: boolean;
+  onClick?: () => void;
+  sx?: SxProps<Theme>;
+}
+
+const ColumnField: React.FC<ColumnFieldProps> = ({
   children,
   isOpen,
   onClick,
+  sx,
+  ...props
 }) => {
-  const { palette } = useTheme();
+  const { palette, custom } = useTheme();
 
   return (
     <Box
       sx={{
         width: 40,
         height: 40,
-        border: "1px solid gray",
         cursor: "pointer",
         fontWeight: "bold",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: isOpen ? palette.background.default : "white",
+        border: `1px solid ${custom.field.borderColor}`,
+        borderTopColor: custom.field.borderTopAndLeftColor,
+        borderLeftColor: custom.field.borderTopAndLeftColor,
+        backgroundColor: isOpen ? "white" : custom.field.bg,
         "&:hover": {
-          backgroundColor: isOpen ? "white" : palette.primary.main,
+          backgroundColor: isOpen ? "white" : palette.gray,
         },
+        ...sx,
       }}
       onClick={onClick}
+      {...props}
     >
       {children}
     </Box>
@@ -40,19 +53,36 @@ interface FieldProps {
 }
 
 const Field = ({ type, value, index, onClick }: FieldProps) => {
+  const { custom } = useTheme();
   const handleClick = useCallback(() => onClick(index), [index, onClick]);
 
   switch (type) {
     case BoardFieldTypes.BOMB:
       return (
-        <ColumnField isOpen={true}>
+        <ColumnField isOpen={true} data-testid="field">
           <img src="./images/bomb.png" width="30px" height="30px" />
         </ColumnField>
       );
     case BoardFieldTypes.EMPTY:
-      return <ColumnField isOpen={false} onClick={handleClick}></ColumnField>;
+      return (
+        <ColumnField
+          isOpen={false}
+          onClick={handleClick}
+          data-testid="field"
+        ></ColumnField>
+      );
     case BoardFieldTypes.NUMBER:
-      return <ColumnField isOpen={true}>{value}</ColumnField>;
+      return (
+        <ColumnField
+          isOpen={true}
+          sx={{
+            color: custom.numberColors[value],
+          }}
+          data-testid="field"
+        >
+          {value === 0 ? "" : value}
+        </ColumnField>
+      );
   }
 };
 

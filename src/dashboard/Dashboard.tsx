@@ -2,7 +2,7 @@ import { Button, Container, Box } from "@mui/material";
 import React, { useState } from "react";
 import Board from "../board/Board";
 import { Level, PREDEFINED_LEVELS } from "../board/BoardTypes";
-import LevelPicker from "../level-picker/LevelPicker";
+import LevelPicker from "../board/level-picker/LevelPicker";
 import { useAppDispatch } from "../common/store";
 import { startGame } from "../board/BoardSlice";
 
