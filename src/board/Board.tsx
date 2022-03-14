@@ -1,11 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { useAppSelector } from "../common/store";
+import { selectBoard } from "./BoardSelectors";
 import { GameStatus } from "./BoardTypes";
 import Row from "./row/Row";
 
 const Board = () => {
-  const { board, gameStatus } = useAppSelector((state) => state.boardReducer);
+  const { gameStatus } = useAppSelector((state) => state.boardReducer);
+  const board = useAppSelector(selectBoard);
 
   return (
     <Box

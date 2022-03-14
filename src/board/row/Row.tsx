@@ -1,8 +1,8 @@
 import React, { memo, useCallback } from "react";
 import { Box } from "@mui/material";
 import Field from "./Field";
-import { openField } from "../BoardSlice";
-import { BoardField } from "../BoardTypes";
+import { flagField, openField } from "../BoardSlice";
+import { BoardField, BoardFieldTypes } from "../BoardTypes";
 import { useAppDispatch } from "../../common/store";
 
 interface RowProps {
@@ -15,7 +15,18 @@ const Row = ({ columns, rowIndex }: RowProps) => {
 
   const handleOpenField = useCallback(
     (columnIndex: number) => {
+      if (columns[columnIndex].type === BoardFieldTypes.FLAG) {
+        return;
+      }
+
       dispatch(openField({ x: columnIndex, y: rowIndex }));
+    },
+    [dispatch, rowIndex, columns]
+  );
+
+  const handleAddFlagToField = useCallback(
+    (columnIndex: number) => {
+      dispatch(flagField({ row: rowIndex, column: columnIndex }));
     },
     [dispatch, rowIndex]
   );
@@ -26,7 +37,13 @@ const Row = ({ columns, rowIndex }: RowProps) => {
       data-testid="field-row"
     >
       {columns.map((field, index) => (
-        <Field {...field} key={index} index={index} onClick={handleOpenField} />
+        <Field
+          {...field}
+          key={index}
+          index={index}
+          onClick={handleOpenField}
+          onRightClick={handleAddFlagToField}
+        />
       ))}
     </Box>
   );

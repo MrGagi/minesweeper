@@ -13,6 +13,7 @@ describe("Field component", () => {
           value={null}
           index={1}
           onClick={() => true}
+          onRightClick={() => true}
         />
       </ThemeProvider>
     );
@@ -30,6 +31,7 @@ describe("Field component", () => {
           value={3}
           index={1}
           onClick={() => true}
+          onRightClick={() => true}
         />
       </ThemeProvider>
     );
@@ -46,11 +48,29 @@ describe("Field component", () => {
           value={0}
           index={1}
           onClick={() => true}
+          onRightClick={() => true}
         />
       </ThemeProvider>
     );
 
     const element = screen.getByTestId("field");
     expect(element.innerHTML).not.toContain("0");
+  });
+
+  it("Should be able to render Field with a flag", () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <Field
+          type={BoardFieldTypes.FLAG}
+          value={null}
+          index={1}
+          onRightClick={() => true}
+          onClick={() => true}
+        />
+      </ThemeProvider>
+    );
+
+    const element = screen.getByTestId("flag");
+    expect(element).toBeInTheDocument();
   });
 });

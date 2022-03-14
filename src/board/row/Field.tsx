@@ -1,84 +1,76 @@
 import React, { memo, useCallback } from "react";
-import { Box, SxProps, Theme } from "@mui/material";
+import { Box } from "@mui/material";
 import { BoardFieldTypes } from "../BoardTypes";
 import { useTheme } from "@mui/material/styles";
+import FlagIcon from "@mui/icons-material/Flag";
+import { styled } from "@mui/system";
 
-interface ColumnFieldProps {
-  isOpen: boolean;
-  onClick?: () => void;
-  sx?: SxProps<Theme>;
-}
-
-const ColumnField: React.FC<ColumnFieldProps> = ({
-  children,
-  isOpen,
-  onClick,
-  sx,
-  ...props
-}) => {
-  const { palette, custom } = useTheme();
-
-  return (
-    <Box
-      sx={{
-        width: 40,
-        height: 40,
-        cursor: "pointer",
-        fontWeight: "bold",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        border: `1px solid ${custom.field.borderColor}`,
-        borderTopColor: custom.field.borderTopAndLeftColor,
-        borderLeftColor: custom.field.borderTopAndLeftColor,
-        backgroundColor: isOpen ? "white" : custom.field.bg,
-        "&:hover": {
-          backgroundColor: isOpen ? "white" : palette.gray,
-        },
-        ...sx,
-      }}
-      onClick={onClick}
-      {...props}
-    >
-      {children}
-    </Box>
-  );
-};
+const StyledColumnField = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "isOpen",
+})<{ isOpen: boolean }>(({ isOpen, theme }) => ({
+  width: 40,
+  height: 40,
+  cursor: "pointer",
+  fontWeight: "bold",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  border: `1px solid ${theme.custom.field.borderColor}`,
+  borderTopColor: theme.custom.field.borderTopAndLeftColor,
+  borderLeftColor: theme.custom.field.borderTopAndLeftColor,
+  backgroundColor: isOpen ? "white" : theme.custom.field.bg,
+  "&:hover": {
+    backgroundColor: isOpen ? "white" : theme.palette.gray,
+  },
+}));
 
 interface FieldProps {
   type: BoardFieldTypes;
   onClick: (index: number) => void;
+  onRightClick: (index: number) => void;
   value: number | null;
   index: number;
 }
 
-const Field = ({ type, value, index, onClick }: FieldProps) => {
+const Field = ({ type, value, index, onClick, onRightClick }: FieldProps) => {
   const { custom } = useTheme();
   const handleClick = useCallback(() => onClick(index), [index, onClick]);
 
   switch (type) {
     case BoardFieldTypes.BOMB:
       return (
-        <ColumnField isOpen={true} data-testid="field">
+        <StyledColumnField isOpen={true} data-testid="field">
           <img
             src="./images/bomb.png"
             width="30px"
             height="30px"
             alt="Bomb in the field"
           />
-        </ColumnField>
+        </StyledColumnField>
+      );
+    case BoardFieldTypes.FLAG:
+      return (
+        <StyledColumnField isOpen={true} data-testid="field">
+          <FlagIcon data-testid="flag" />
+        </StyledColumnField>
       );
     case BoardFieldTypes.EMPTY:
       return (
-        <ColumnField
+        <StyledColumnField
           isOpen={false}
           onClick={handleClick}
+          onContextMenu={(event) => {
+            if (onRightClick) {
+              event.preventDefault();
+              onRightClick(index);
+            }
+          }}
           data-testid="field"
-        ></ColumnField>
+        ></StyledColumnField>
       );
     case BoardFieldTypes.NUMBER:
       return (
-        <ColumnField
+        <StyledColumnField
           isOpen={true}
           sx={{
             color: custom.numberColors[value],
@@ -86,7 +78,7 @@ const Field = ({ type, value, index, onClick }: FieldProps) => {
           data-testid="field"
         >
           {value === 0 ? "" : value}
-        </ColumnField>
+        </StyledColumnField>
       );
   }
 };

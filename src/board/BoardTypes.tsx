@@ -28,6 +28,7 @@ export enum BoardFieldTypes {
   BOMB = "bomb",
   EMPTY = "empty",
   NUMBER = "number",
+  FLAG = "flag",
 }
 
 export type BoardField = { type: BoardFieldTypes; value: number | null };
